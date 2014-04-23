@@ -11,10 +11,10 @@ class MDF:
     """Uma classe de cálculo do Método das Diferenças Finitas."""
     alpha = 1
     def __init__(self,x,y):
-        self._x = y
-        self._y = x
+        self._x = x
+        self._y = y
         self.k = 0
-        self.delta = 0.01   #Max value delta for convergence
+        self.delta = 0.0001   #Max value delta for convergence
         self.X, self.Y = np.meshgrid(x, y)
         self.space = np.zeros(self.X.shape)
         self.bounds = {'top':y*0, 'bot':y*0, 'left':x*0, 'right':x*0}   # Use 'n' if Newmann
@@ -56,20 +56,17 @@ class MDF:
                 vb = self.space[ix,iy+1] if iy < max(sy) else self.bound(ix,
                     'bot')
                 vl = self.space[ix-1,iy] if ix > min(sx) else self.bound(iy,
-                    'right')
-                vr = self.space[ix+1,iy] if ix < max(sx) else self.bound(iy,
                     'left')
+                vr = self.space[ix+1,iy] if ix < max(sx) else self.bound(iy,
+                    'right')
                 #v = v1 + (self.alpha/4.0) * ( ((vt+vb+vl+vr)/4.0) - 4.0*v1 )
                 v = (vt+vb+vl+vr)/4.0   # Calculate Vk+1
                 self.space[ix,iy] = v
         self.k += 1
                 
-    def plot(self):
-        #h = plt.contour(self.X,self.Y,np.rot90(self.space))
-        h = plt.imshow(np.rot90(self.space, 3), interpolation='nearest', 
-                       cmap=cm.afmhot)
-        cbar = plt.colorbar(h)
-        #plt.clabel(h, inline=1, fontsize=10)
+    def plot(self):        
+        h = plt.contour(np.rot90(self.space,1))
+        plt.clabel(h, inline=1, fontsize=10)
         
 plt.subplot(2,2,1)
 ex1 = MDF(np.arange(0,10,.5), np.arange(0,10,.5))
