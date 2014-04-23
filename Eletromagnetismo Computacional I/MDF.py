@@ -3,9 +3,9 @@
 Created on Wed Apr 16 15:00:06 2014
 @author: leo
 """
-
 import matplotlib.pyplot as plt
 import numpy as np
+
 
 class MDF:
     """Uma classe de cálculo do Método das Diferenças Finitas."""
@@ -14,9 +14,10 @@ class MDF:
         self._x = y
         self._y = x
         self.k = 0
+        self.delta = 0.01   #Max value delta for convergence
         self.X, self.Y = np.meshgrid(x, y)
         self.space = np.zeros(self.X.shape)
-        self.bounds = {'top':y*0, 'bot':y*0, 'left':x*0, 'right':x*0}
+        self.bounds = {'top':y*0, 'bot':y*0, 'left':x*0, 'right':x*0}   # Use 'n' if Newmann
     
     def run(self,iteractions=None):
         if iteractions:           
@@ -27,7 +28,7 @@ class MDF:
             while True:
                 self.iterate()
                 d = max(abs((this-self.space)).flatten())
-                if d<.01:                    
+                if d<self.delta:                    
                     break
                 this = self.space.copy()
             print "Converged in %d iteractions" % self.k
@@ -50,21 +51,23 @@ class MDF:
         sy = range(self.space.shape[1])
         for ix in sx:
             for iy in sy:
-                #v1 = self.space[ix,iy]
-                # Bounds
-                vt = self.space[ix,iy-1] if iy > min(sy) else self.bound(ix,'top')
-                vb = self.space[ix,iy+1] if iy < max(sy) else self.bound(ix,'bot')
-                vl = self.space[ix-1,iy] if ix > min(sx) else self.bound(iy,'right')
-                vr = self.space[ix+1,iy] if ix < max(sx) else self.bound(iy,'left')
-                # Calculate Vk+1
+                vt = self.space[ix,iy-1] if iy > min(sy) else self.bound(ix,
+                    'top')
+                vb = self.space[ix,iy+1] if iy < max(sy) else self.bound(ix,
+                    'bot')
+                vl = self.space[ix-1,iy] if ix > min(sx) else self.bound(iy,
+                    'right')
+                vr = self.space[ix+1,iy] if ix < max(sx) else self.bound(iy,
+                    'left')
                 #v = v1 + (self.alpha/4.0) * ( ((vt+vb+vl+vr)/4.0) - 4.0*v1 )
-                v = (vt+vb+vl+vr)/4.0
+                v = (vt+vb+vl+vr)/4.0   # Calculate Vk+1
                 self.space[ix,iy] = v
         self.k += 1
                 
     def plot(self):
         #h = plt.contour(self.X,self.Y,np.rot90(self.space))
-        h = plt.imshow(np.rot90(self.space, 3), interpolation='nearest', cmap=cm.afmhot)
+        h = plt.imshow(np.rot90(self.space, 3), interpolation='nearest', 
+                       cmap=cm.afmhot)
         cbar = plt.colorbar(h)
         #plt.clabel(h, inline=1, fontsize=10)
         
