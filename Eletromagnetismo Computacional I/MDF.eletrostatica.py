@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Created on Fri Apr 25 16:17:46 2014
+Simulações de eletrostática utilizando o Método das Diferenças Finitas.
 
+Created on Fri Apr 25 16:17:46 2014
 @author: leo
 """
 import matplotlib.pyplot as plt

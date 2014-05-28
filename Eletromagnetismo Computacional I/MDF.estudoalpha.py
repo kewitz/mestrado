@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Created on Fri Apr 25 17:09:45 2014
+Estudo do impacto de Alpha na velocidade de convergência do MDF.
 
+Created on Fri Apr 25 17:09:45 2014
 @author: leo
 """
 
