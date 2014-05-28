@@ -29,20 +29,25 @@ a.run(gaussFactory(a))
 fig = plt.figure()
 ax = p3.Axes3D(fig)
 
-line1, = ax.plot(a.sd, a.et[50,:], zs=0, zdir='z')
-line2, = ax.plot(a.sd, a.ht[50,:], zs=0, zdir='y')
+line1, = ax.plot(a.sd, a.et[50,:], zs=0, zdir='z', label='Ex')
+line2, = ax.plot(a.sd, a.ht[50,:], zs=0, zdir='y', label='Hy')
+ax.legend()
+
+ax.set_xlabel('Z')
+ax.set_ylabel('Ex')
+ax.set_zlabel('Hy')
 
 ax.set_ylim3d(a.et.min(), a.et.max())
 ax.set_zlim3d(a.ht.min(), a.ht.max())
 
 def animate(t):
     line1.set_data(a.sd, a.et[t,:])
-    line1.set_3d_properties(a.et[t,:])
+    line1.set_3d_properties(0)
     line2.set_data(a.sd, a.ht[t,:])
     line2.set_3d_properties(a.ht[t,:])
-    return line1,
+    return True
     
 # Plota animação
-#ani = animation.FuncAnimation(fig, animate, range(len(a.td)), blit=False,
-#                              interval=100)
+ani = animation.FuncAnimation(fig, animate, range(len(a.td)), blit=False,
+                              interval=33)
 plt.show()
