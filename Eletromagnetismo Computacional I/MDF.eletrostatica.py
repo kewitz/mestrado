@@ -6,7 +6,7 @@ Created on Fri Apr 25 16:17:46 2014
 """
 import matplotlib.pyplot as plt
 import numpy as np
-import MDF as m
+import libs.MDF as m
 
 
 plt.subplot(2,2,1)

@@ -7,7 +7,7 @@ Created on Fri Apr 25 17:09:45 2014
 
 import matplotlib.pyplot as plt
 import numpy as np
-import MDF as m
+import libs.MDF as m
 import multiprocessing
 
 threads = multiprocessing.cpu_count()
