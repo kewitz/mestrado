@@ -67,4 +67,3 @@ class MDF:
     def plot(self):        
         h = plt.contour(self.X, self.Y, np.rot90(self.space,1))
         plt.clabel(h, inline=1, fontsize=10)
-        

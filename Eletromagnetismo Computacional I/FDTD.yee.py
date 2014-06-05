@@ -14,7 +14,9 @@ import mpl_toolkits.mplot3d.axes3d as p3
 from libs.FDTD import Yee
 
 def gaussFactory(fdtd):
-    """Gera função excitação `f(x)` de um impulso gaussiano modulado em sin."""
+    """
+    Gera função excitação `f(x)` de um impulso gaussiano modulado em sin.
+    """
     width = (2*np.power(fdtd.tal,2))
     omega = 6*np.pi*fdtd.fop
     return lambda t: np.sin(omega*t)\
@@ -24,7 +26,7 @@ def gaussFactory(fdtd):
 a = Yee()
 a.setFreq(2.4E6)
 a.run(gaussFactory(a))
-
+print map(gaussFactory(a), range(40))
 #%% Plot
 fig = plt.figure()
 ax = p3.Axes3D(fig)
@@ -50,4 +52,6 @@ def animate(t):
 # Plota animação
 ani = animation.FuncAnimation(fig, animate, range(len(a.td)), blit=False,
                               interval=33)
+
+#ani.save('demoanimation.gif', writer='imagemagick', fps=30);
 plt.show()

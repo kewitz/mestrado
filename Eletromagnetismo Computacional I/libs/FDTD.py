@@ -105,7 +105,7 @@ class Yee:
         
         # Define domínios:
         self.sd = np.arange(0,self.lamb*10,self.ds,dtype=np.float64)
-        self.td = np.arange(0,self.dt*700,self.dt,dtype=np.float64)
+        self.td = np.arange(0,self.dt*140,self.dt,dtype=np.float64)
         self.et = np.zeros((len(self.td),len(self.sd)))
         self.ht = np.zeros((len(self.td),len(self.sd)))
         
@@ -127,3 +127,4 @@ class Yee:
                     self.et[k,i]
             # Condição de contorno absorvente no campo elétrico
             self.et[k+1,-1] = 0
+            
