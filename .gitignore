@@ -53,3 +53,8 @@ coverage.xml
 docs/_build/
 
 Misc/
+
+# Plots
+*.jpg
+*.gif
+*.mp4

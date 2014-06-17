@@ -29,19 +29,21 @@ def xt(k):
 
 
 # Plota
-plt.figure()
-plt.plot(td, xt(5))
-plt.plot(td, xt(10))
-plt.plot(td, xt(20))
+def ploth(harm):   
+    plt.figure()
+    plt.plot(td, xt(harm))
+    plt.grid(True)
+    plt.title('$x(t)$')
+    plt.xlabel('$t$')
 
-plt.grid(True)
-plt.title('$x(t)$')
-plt.xlabel('$t$')
-plt.legend()
+ploth(5)
+ploth(10)
+ploth(20)
 
 plt.figure()
-plt.vlines(harms(20), [0], [abs(ak(k)) for k in harms(20)], 'k', lw=2)
-plt.plot(harms(20), [abs(ak(k)) for k in harms(20)], 'ko')
+plt.vlines(harms(10), [0], [abs(ak(k)) for k in harms(10)], 'k', lw=2)
+plt.plot(harms(10), [abs(ak(k)) for k in harms(10)], 'ko')
+plt.xlim(-11,11)
 
 plt.grid(True)
 plt.title('$a_k$')
