@@ -88,40 +88,27 @@ class FYee:
 		# Iterações no domínio do tempo
 		for k, t in indexed(self.td[:-1]):
 			# Excitação
-			fx(k,t,self)
-			pack(cEz,self.Ez[k,:,:])
+			fx(k, t, self)
+			pack(cEz, self.Ez[k,:,:])
 
 			# Propagação de H no espaço
-				# void H (int k, unsigned int sx, unsigned int sy, double CH, double * Ez, double * Hx, double * Hy)
-			pack(oldHx,self.Hx[k,:,:])
-			pack(oldHy,self.Hy[k,:,:])
+			pack(oldHx, self.Hx[k,:,:])
+			pack(oldHy, self.Hy[k,:,:])
 			fast.calcH(c_int(k), c_int(skip), c_int(sx), c_int(sy), c_double(CH), byref(cEz), byref(cHx), byref(cHy), byref(oldHx), byref(oldHy))
-			self.Hx[k,:,:] = unpack(cHx,(sx,sy))*self.bound['Hx']
-			self.Hy[k,:,:] = unpack(cHy,(sx,sy))*self.bound['Hy']
+			self.Hx[k,:,:] = unpack(cHx, (sx,sy))*self.bound['Hx']
+			self.Hy[k,:,:] = unpack(cHy, (sx,sy))*self.bound['Hy']
 			
-			# for i, x in indexed(self.xd[0:-1]):
-			# 	for j, y in indexed(self.yd[0:-1]):
-			# 		if self.bound['Hy'][i,j] == 1: self.Hy[k,i,j] = (CH/self.dx) * (self.Ez[k,i+1,j] - self.Ez[k,i,j])
-			# 		if self.bound['Hx'][i,j] == 1: self.Hx[k,i,j] = (-CH/self.dx) * (self.Ez[k,i,j+1] - self.Ez[k,i,j])
-			# 		if k > 0:
-			# 			if self.bound['Hx'][i,j] == 1: self.Hx[k,i,j] += self.Hx[k-1,i,j]
-			# 			if self.bound['Hy'][i,j] == 1: self.Hy[k,i,j] += self.Hy[k-1,i,j]
-
 			# Propagação de E no espaço
-				#int calcE (unsigned int sx, unsigned int sy, double CE, double * Ez, double * Hx, double * Hy)
-			pack(oldEz,self.Ez[k,:,:])
+			pack(oldEz, self.Ez[k,:,:])
 			fast.calcE(c_int(skip), c_int(sx), c_int(sy), c_double(CEx), c_double(CEy), byref(cEz), byref(cHx), byref(cHy), byref(oldEz))
-			self.Ez[k+1,:,:] = unpack(cEz,(sx,sy))*self.bound['Ez']
-			# for i, x in indexed(self.xd[1:-1],1):
-			# 	for j, y in indexed(self.yd[1:-1],1):
-			# 		if self.bound['Ez'][i,j] == 1: self.Ez[k+1,i,j] = self.Ez[k,i,j] + (CE/self.dx) * (self.Hy[k,i,j] - self.Hy[k,i-1,j]) - (CE/self.dy) * (self.Hx[k,i,j] - self.Hx[k,i,j-1])
-
+			self.Ez[k+1,:,:] = unpack(cEz, (sx,sy))*self.bound['Ez']
+			
 def pack(mem, array):
 	flat = array.flatten().tolist()
 	size = len(flat)
 	for i in range(size):
 		mem[i] = flat[i]
 
-def unpack(mem,shape):
+def unpack(mem, shape):
 	flat = np.array([i for i in mem])
 	return flat.reshape(shape)

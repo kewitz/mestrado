@@ -14,16 +14,15 @@ import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 import mpl_toolkits.mplot3d.axes3d as p3
 
-from libs.FDTD2D import Yee
 from src.Yee2D.fastYee import FYee
 
 def gauss(k, t, fdtd):
 	width = (2*np.power(fdtd.tal,2))
 	omega = 6*np.pi*fdtd.fop
 	func = lambda t: np.exp(-np.power(t-2*fdtd.t0,2) / width)
-	fdtd.Ez[k,0,:] = func(t)
+	fdtd.Ez[k,10,50] = func(t)
 
-a = Yee()
+a = FYee()
 a.setFreq(2.4E9)
 
 a.bound['Ez'][0,:] = 0
@@ -40,7 +39,7 @@ a.bound['Hx'][50,40:60+1] = 0
 a.bound['Hy'][20:50+1,40] = 0
 a.bound['Hy'][20:50+1,60] = 0
 
-a.run(gauss,t=100)
+a.run(gauss,t=2000)
 
 #%%Plot
 fig = plt.figure()

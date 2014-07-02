@@ -88,8 +88,8 @@ class Yee:
 			
 			# Propagação de H no espaço
 			params = zip(space,[(k,self.Ez,self.Hx,CH)]*threads)
-			Hy = pool.map(makeHy, params)
-			Hx = pool.map(makeHx, params)
+			Hy = np.array(pool.map(makeHy, params)).reshape((sx-1,sy-1))
+			Hx = np.array(pool.map(makeHx, params)).reshape((sx-1,sy-1))
 			self.Hx[k,0:-1,0:-1] = Hx*self.bound['Hx'][0:-1,0:-1]
 			self.Hy[k,0:-1,0:-1] = Hy*self.bound['Hy'][0:-1,0:-1]
 			
@@ -101,7 +101,8 @@ class Yee:
 					, ys)
 				self.Ez[k+1,ix,1:-1] = Ez*self.bound['Ez'][ix,1:-1]
 
-def makeHx(xy, params):
+def makeHx(params):
+	xy,params = params
 	ix,iy = xy
 	k, Ez, Hx, CH = params
 	Hx = -CH * (Ez[k,ix+1,iy]-Ez[k,ix,iy])
@@ -109,7 +110,8 @@ def makeHx(xy, params):
 		Hx += Hx[k-1,ix,iy]
 	return Hx
 
-def makeHy(xy, params):
+def makeHy(params):
+	xy,params = params
 	ix,iy = xy
 	k, Ez, Hx, CH = params
 	Hy = -CH * (Ez[k,ix+1,iy]-Ez[k,ix,iy])
