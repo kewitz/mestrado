@@ -27,8 +27,8 @@ r3 = np.angle(hjw2(wd2phase))
 # Plot
 fsize = (8,4)
 picfolder = '/home/leo/Documents/Sinais e Sistemas Lineares/exercicios/'
-save = True
-ex1 = False
+save = False
+ex1 = True
 ex2 = True
 
 if ex1:
