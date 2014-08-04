@@ -9,3 +9,4 @@ As seguintes bibliotecas utilizadas são padrões no [Spyder](https://code.googl
 
 - Numpy
 - Matplotlib
+- Sympy
