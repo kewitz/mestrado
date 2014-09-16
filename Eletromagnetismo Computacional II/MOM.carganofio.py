@@ -38,7 +38,7 @@ for i in range(ms):
         n = np.float64(j+1.0)
         L[i,j] = l(m,n)  # Monta a matriz de ?
 
-rho = np.linalg.solve(L,G.T)  # Obtem o vetor de Permeabilidades
+rho = np.linalg.solve(L,G.T)  # Obtem o vetor 5de Permeabilidades
 Q = rho.sum() * Delta
 print "Carga total no condutor %.3eC" % Q
 
