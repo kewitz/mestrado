@@ -38,7 +38,7 @@ class Mesh:
             raise
     
     def plotMesh(self):
-        cbase = colors.cnames.keys()
+        cbase = 'green white green red blue coral violet navy brown orange beige'.split()
         fig, ax = plt.subplots()
         for e in self.elements:
             x = []
@@ -47,11 +47,10 @@ class Mesh:
                 n = self.getNode(ni)
                 x.append(n.x)
                 y.append(n.y)
-            p = Polygon(zip(x,y), closed=True ,color=cbase[e.material], alpha=.3, linewidth=.4)
+            p = Polygon(zip(x,y), closed=True, fc=cbase[e.material], ec='k', alpha=.3, linewidth=.4)
             ax.add_patch(p)
-            #ax.plot(x, y, color=cbase[int(e.material)], fillstyle='full', linewidth=.2)
         ax.axis('equal')
         plt.show()
-        
+
 m = Mesh("""/home/leo/Documents/Master/Eletromagnetismo Computacional 2/vanti/dados.malha""")
 m.plotMesh()
