@@ -18,6 +18,7 @@ class Element:
         args = nos.strip().split()
         self.nodes = [int(a) for a in args[0:3]]
         self.material = int(args[3])
+        self.source = float(args[4])
 
 class Mesh:
     def __init__(self, filepath):
@@ -38,7 +39,7 @@ class Mesh:
             raise
     
     def plotMesh(self):
-        cbase = 'green white green red blue coral violet navy brown orange beige'.split()
+        cbase = 'green white green blue coral violet navy brown orange beige'.split()
         fig, ax = plt.subplots()
         for e in self.elements:
             x = []
@@ -47,7 +48,8 @@ class Mesh:
                 n = self.getNode(ni)
                 x.append(n.x)
                 y.append(n.y)
-            p = Polygon(zip(x,y), closed=True, fc=cbase[e.material], ec='k', alpha=.3, linewidth=.4)
+            c = cbase[e.material] if e.source == 0.0 else 'grey'  # Cinza se for fonte.
+            p = Polygon(zip(x,y), closed=True, fc=c, ec='k', alpha=.3, linewidth=.4)
             ax.add_patch(p)
         ax.axis('equal')
         plt.show()
