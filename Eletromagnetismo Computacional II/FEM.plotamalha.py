@@ -3,6 +3,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import colors
+from matplotlib.patches import Polygon
 
 il = lambda l, offset=0: zip(np.arange(len(l))+offset,l)
 
@@ -16,7 +17,7 @@ class Element:
     def __init__(self,nos,i):
         args = nos.strip().split()
         self.nodes = [int(a) for a in args[0:3]]
-        self.material = args[3]
+        self.material = int(args[3])
 
 class Mesh:
     def __init__(self, filepath):
@@ -46,12 +47,11 @@ class Mesh:
                 n = self.getNode(ni)
                 x.append(n.x)
                 y.append(n.y)
-            x.append(x[0])
-            y.append(y[0])
-            ax.plot(x, y, color=cbase[int(e.material)], marker='o')
+            p = Polygon(zip(x,y), closed=True ,color=cbase[e.material], alpha=.3, linewidth=.4)
+            ax.add_patch(p)
+            #ax.plot(x, y, color=cbase[int(e.material)], fillstyle='full', linewidth=.2)
         ax.axis('equal')
         plt.show()
-        pass
         
 m = Mesh("""/home/leo/Documents/Master/Eletromagnetismo Computacional 2/vanti/dados.malha""")
 m.plotMesh()
