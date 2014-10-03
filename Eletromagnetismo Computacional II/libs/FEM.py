@@ -6,11 +6,11 @@ Copyright (c) 2014 Leonardo Kewitz
 
 Created on Thu May 15 11:50:45 2014
 """
-import matplotlib.pyplot as plt
 from numpy import *
-from matplotlib import colors
+import matplotlib.pyplot as plt
+import matplotlib.tri as tri
+from matplotlib.mlab import griddata
 from matplotlib.patches import Polygon
-
 
 il = lambda l, offset=0: zip(arange(len(l))+offset,l)
 
@@ -98,15 +98,16 @@ class Mesh:
         plt.show()
     
     def plotResult(self):
-        x = sort(list(set(map(lambda n: n.x , self.nodes)))).tolist()
-        y = sort(list(set(map(lambda n: n.y , self.nodes)))).tolist()
-        z = zeros((len(x),len(y)))
-        #X, Y = meshgrid(x, y)
+        x = []
+        y = []
+        z = []
         for n in self.nodes:
-            v = self.result[n.i-1]
-            i = x.index(n.x)
-            j = y.index(n.y)
-            z[i,j] = v
-        CS = plt.contour(x, y, z.T)
-        plt.clabel(CS, inline=1, fontsize=10)
+            x.append(n.x)
+            y.append(n.y)
+            z.append(self.result[n.i-1])
+        tri.Triangulation(x, y)
+        plt.tricontour(x, y, z, 15, linewidths=0.5, colors='k')
+        plt.tricontourf(x, y, z, 15, cmap=plt.cm.rainbow)
+        plt.plot(x, y, 'ko', ms=3)
+        plt.colorbar()
         
