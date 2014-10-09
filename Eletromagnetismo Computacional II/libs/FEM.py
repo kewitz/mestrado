@@ -105,9 +105,9 @@ class Mesh:
             x.append(n.x)
             y.append(n.y)
             z.append(self.result[n.i-1])
-        tri.Triangulation(x, y)
-        plt.tricontour(x, y, z, 15, linewidths=0.5, colors='k')
-        plt.tricontourf(x, y, z, 15, cmap=plt.cm.rainbow)
+        t = tri.Triangulation(x, y)
+        plt.tricontour(t, z, 15, linewidths=0.5, colors='k')
+        plt.tricontourf(t, z, 15, cmap=plt.cm.rainbow)
         plt.plot(x, y, 'ko', ms=3)
         plt.colorbar()
         
