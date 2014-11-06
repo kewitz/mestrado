@@ -20,7 +20,7 @@ def gauss(k, t, fdtd):
 	width = (2*np.power(fdtd.tal,2))
 	omega = 6*np.pi*fdtd.fop
 	func = lambda t: np.exp(-np.power(t-2*fdtd.t0,2) / width)
-	fdtd.Ez[k,10,50] = func(t)
+	fdtd.Ez[k,1,:] = func(t)
 
 a = FYee()
 a.setFreq(2.4E9)
@@ -39,15 +39,15 @@ a.bound['Hx'][50,40:60+1] = 0
 a.bound['Hy'][20:50+1,40] = 0
 a.bound['Hy'][20:50+1,60] = 0
 
-a.run(gauss,t=2000)
+a.run(gauss,t=3000)
 
 #%%Plot
 fig = plt.figure()
 ims = []
 
 
-for k in range(int(len(a.td)/10)):
-    im = plt.imshow(a.Ez[k*10,:,:])
+for k in a.Ez[::15,:,:]:
+    im = plt.imshow(k)
     ims.append([im])
 
 ani = animation.ArtistAnimation(fig, ims, interval=30, blit=True, repeat_delay=0)

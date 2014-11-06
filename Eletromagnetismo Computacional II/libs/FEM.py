@@ -14,6 +14,12 @@ from matplotlib.patches import Polygon
 
 il = lambda l, offset=0: zip(arange(len(l))+offset,l)
 
+materiais = {
+    1: {'mur':1.0, 'sigma': 0.0},
+    2: {'mur':1000.0, 'sigma': 0.0},
+    5: {'mur':1000.0, 'sigma': 1E7}
+}
+
 class Node:
     def __init__(self,postring,i):
         x, y = postring.strip().split()
@@ -94,7 +100,8 @@ class Mesh:
             p = Polygon(zip(x, y), closed=True, fc=c, ec='k', alpha=.3, linewidth=.4)
             ax.add_patch(p)
         ax.axis('equal')
-        self.plotResult()
+        if 'result' in self.__dict__.keys():
+            self.plotResult()
         plt.show()
     
     def plotResult(self):
