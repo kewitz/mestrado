@@ -4,7 +4,7 @@ Created on Thu Jun  5 15:07:28 2014
 
 @author: leo
 """
-
+from numpy import *
 w = 2*pi/9
 ak = lambda k: (1.0/9) * (3 + exp(-1j*k) + 2*exp(-3j*k) - exp(-4j*k) -2*exp(-6j*k))
 harms = lambda k: arange(-k,k+1)
